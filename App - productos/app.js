@@ -38,6 +38,18 @@ app.set('view engine', 'jade')
 // Indicamos donde van a estar nuestros archivos estaticos (img, js, css ...)
 
 // Rutas (Enrutador)
+// Ruta para editar los productos
+app.get('/admin/editar/:id', function(solicitud, respuesta) {
+  // respuesta.render('admin/editar')
+  var id_producto  = solicitud.params.id
+  Producto.findOne({"_id": id_producto}, function(error, producto){
+      respuesta.render('admin/editar', {producto: producto})
+  })
+
+})
+
+
+
 //Ruta para mostrar productos en la zona de administración
 app.get('/admin',function(solicitud, respuesta){
     Producto.find(function(error, documento){
@@ -62,7 +74,7 @@ app.get('/menu', function(solicitud, respuesta){
             respuesta.render('menu/index', {productos: documento})
         }
     })
-    
+
 })
 
 
@@ -70,7 +82,7 @@ app.get('/menu', function(solicitud, respuesta){
 
 
 
-// Ruta para recibir la petición del frmulario 
+// Ruta para recibir la petición del frmulario
 app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
 //// Validamos la contraseña
     if (solicitud.body.clave == '1234') {
@@ -90,12 +102,12 @@ app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
             producto.save(function(error){
                 console.log(result)
                 respuesta.render('index')
-            }) 
-          });        
+            })
+          });
     }else{
         respuesta.render('menu/nuevo')
     }
- 
+
 })
 // Ruta para crear nuevos productos
 app.get('/menu/nuevo',function(solicitud, respuesta) {
