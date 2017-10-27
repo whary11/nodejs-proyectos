@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 // Para recibir las imagenes sencillas en node js con multer
 var multer = require('multer')
 var cloudinary = require('cloudinary')
+var clave = 1234;
 
 // Configuración personal de Cloudinary
 cloudinary.config({
@@ -38,15 +39,25 @@ app.set('view engine', 'jade')
 // Indicamos donde van a estar nuestros archivos estaticos (img, js, css ...)
 
 // Rutas (Enrutador)
+// Ruta para el ingreso al panel de admnistración
+app.get("/admin",function(solicitud,respuesta){
+	respuesta.render("admin/form");
+});
 //Ruta para mostrar productos en la zona de administración
-app.get('/admin',function(solicitud, respuesta){
-    Producto.find(function(error, documento){
-        if (error) {
-            respuesta.render('menu/index')
-        }else{
-            respuesta.render('admin/productos', {productos: documento})
-        }
-    })
+app.post('/admin',function(solicitud, respuesta){
+    // var claveRes = solicitud.body.clave;
+    console.log(claveRes)
+    if (claveRes == clave) {
+        Producto.find(function(error, documento){
+            if (error) {
+                respuesta.render('menu/index')
+            }else{
+                respuesta.render('admin/productos', {productos: documento})
+            }
+        })
+    }else{
+        respuesta.render('admin/form');
+    }
 })
 // Enrutamiento del index de nuestra aplicación
 app.get('/', function(solicitud, respuesta){
