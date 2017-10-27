@@ -2,9 +2,11 @@ extends ../layout.jade
 block contenido
 	div(class="col-md-5 center-block no-float top-space text-left")
 		h1 Inicio administradores
-		form(method="POST" action="/admin" style="margin-top:1.5em;")
+		form(method="POST" style="margin-top:1.5em;" id="adminSesion")
 			div(class="form-group")
 				label Contraseña
 				input(type="password" name="clave" placeholder="Contraseña de administrador" class="form-control")
 			div(class="form-group text-right")
 				input(type="submit" class="btn btn-info" value="Guardar")
+	script(src="https://code.jquery.com/jquery-2.1.1.min.js")
+	script(src="../js/main.js")

@@ -2,44 +2,15 @@ extends ../layout.jade
 block contenido
     div(class="col-md-5 center-block no-float top-space text-left")
         h1 Agregar Producto
-        form(method="post" action="#" style="margin-top:1.5em;" enctype="multipart/form-data")
+        form(method="post" action="/admin/editar/#{producto.id}" style="margin-top:1.5em;")
             div(class="form-group")
                 label Nombre
                 input(type="text" name="titulo" placeholder="Nombre del producto" value="#{producto.titulo}" class="form-control")
             div(class="form-group")
                 label Descripción
-                textarea(name="descripcion" placeholder="Descripción del producto" class="form-control")= producto.descricion
+                textarea(name="descripcion" placeholder="Descripción del producto" class="form-control")= producto.descripcion
             div(class="form-group")
                 label Costo
                 input(type="number" name="precio" placeholder="Costo" value="#{producto.precio}" class="form-control")
             div(class="form-group text-right")
-                input(type="submit" class="btn btn-info" value="Guardar")
-//-  titulo:String,
-//-     descripcion:String,
-//-     imagen:String,
-//-     precio:Number
-//-     <table class="table">
-//-   <thead>
-//-     <tr>
-//-       <th scope="col">#</th>
-//-       <th scope="col">First Name</th>
-//-       <th scope="col">Last Name</th>
-//-       <th scope="col">Username</th>
-//-     </tr>
-//-   </thead>
-//-   <tbody>
-//-     <tr>
-//-       <th scope="row">1</th>
-//-       <td>Mark</td>
-//-       <td>Otto</td>
-//-       <td>@mdo</td>
-//-     </tr>
-//-     <tr>
-//-       <th scope="row">2</th>
-//-       <td>Jacob</td>
-//-       <td>Thornton</td>
-//-       <td>@fat</td>
-//-     </tr>
-//-   </tbody>
-//- </table>
-//- </div>
+                input(type="submit" class="btn btn-info" value="Editar")

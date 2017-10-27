@@ -45,20 +45,61 @@ app.get("/admin",function(solicitud,respuesta){
 });
 //Ruta para mostrar productos en la zona de administración
 app.post('/admin',function(solicitud, respuesta){
-    // var claveRes = solicitud.body.clave;
-    console.log(claveRes)
+    var claveRes = solicitud.body.clave;
+    console.log(solicitud.body)
     if (claveRes == clave) {
         Producto.find(function(error, documento){
             if (error) {
-                respuesta.render('menu/index')
+                // Enviarle respuestas a Ajax
+                respuesta.send('Hubo un error en la base de datos')
             }else{
-                respuesta.render('admin/productos', {productos: documento})
+               // Enviarle respuestas a Ajax
+                respuesta.send({
+                    resp:true,
+                    clave:clave,
+                    productos: documento
+                })
+                // respuesta.render('admin/productos', {productos: documento})
             }
         })
     }else{
-        respuesta.render('admin/form');
+        // Enviarle respuestas a Ajax
+        respuesta.send({resp:false})
     }
 })
+// =======
+// Ruta para editar los productos
+app.get('/admin/editar/:id', function(solicitud, respuesta) {
+  // respuesta.render('admin/editar')
+  var id_producto  = solicitud.params.id
+  Producto.findOne({"_id": id_producto}, function(error, producto){
+      respuesta.render('admin/editar', {producto: producto})
+  })
+})
+app.post('/admin/editar/:id', function(solicitud, respuesta) {
+    // respuesta.render('admin/editar')
+    var id_producto  = solicitud.params.id;
+    console.log(id_producto)
+    var data = {
+        titulo:solicitud.body.titulo,
+        descripcion:solicitud.body.descripcion,
+        imagen:solicitud.body.image_avatar,
+        precio:solicitud.body.precio
+    }
+    // 
+    Producto.update({"_id": id_producto},data,function(producto){
+        console.log(producto)
+        respuesta.redirect("/admin");
+    });
+
+
+
+
+    // Producto.findOne({"_id": id_producto}, function(error, producto){
+    //     respuesta.render('admin/editar', {producto: producto})
+    // })
+  })
+// >>>>>>> 05924efe1a073a5d5f7a86d1341fd00b8eaeef13
 // Enrutamiento del index de nuestra aplicación
 app.get('/', function(solicitud, respuesta){
     respuesta.render('index')
