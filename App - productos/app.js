@@ -78,9 +78,6 @@ app.get('/menu', function(solicitud, respuesta){
 
 
 
-
-
-
 // Ruta para recibir la petición del frmulario 
 app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
 //// Validamos la contraseña
