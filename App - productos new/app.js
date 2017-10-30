@@ -55,12 +55,6 @@ app.post('/admin',function(solicitud, respuesta){
                 // Enviarle respuestas a Ajax
                 // respuesta.send('Hubo un error en la base de datos')
             }else{
-            //    Enviarle respuestas a Ajax
-                // respuesta.send({
-                //     resp:true,
-                //     clave:clave,
-                //     productos: documento
-                // })
                 respuesta.render('admin/productos', {productos: documento})
             }
         })
@@ -105,7 +99,6 @@ app.get('/', function(solicitud, respuesta){
     respuesta.render('index')
 });
 // Ruta para listar los productos
-
 app.get('/menu', function(solicitud, respuesta){
     Producto.find(function(error, documento){
         if (error) {
@@ -114,11 +107,7 @@ app.get('/menu', function(solicitud, respuesta){
             respuesta.render('menu/index', {productos: documento})
         }
     })
-    
 })
-
-
-
 // Ruta para recibir la petición del frmulario 
 app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
 //// Validamos la contraseña
@@ -144,7 +133,6 @@ app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
     }else{
         respuesta.render('menu/nuevo')
     }
- 
 })
 // Ruta para crear nuevos productos
 app.get('/menu/nuevo',function(solicitud, respuesta) {
