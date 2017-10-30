@@ -6,7 +6,9 @@ var bodyParser = require('body-parser')
 // Para recibir las imagenes sencillas en node js con multer
 var multer = require('multer')
 // modulo de cloudinary para cargar la imagen a un servidor externo (cloudinary)
-var cloudinary = require('cloudinary')
+var cloudinary = require('cloudinary');
+var app = express();
+
 var clave = 1234;
 var claveToken = "";
 
@@ -30,7 +32,6 @@ var esquemaProducto = {
 // Definir la estructora de datos a guarddar
 var Producto = mongoose.model('Producto', esquemaProducto)
 
-var app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 // Le indicamos a express que utilice multer
@@ -126,7 +127,6 @@ app.post("/menu",carga.single('image_avatar'), function(solicitud, respuesta){
             // Guardar la información en la base de datos
             producto.imagen = result.url;
             producto.save(function(error){
-                console.log(result)
                 respuesta.render('index')
             }) 
           });        
