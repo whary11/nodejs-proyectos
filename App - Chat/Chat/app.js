@@ -1,6 +1,7 @@
 'use strict'
 var app = require('express')();
 var http = require('http').Server(app);
+var puerto = 8080;
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res){
@@ -12,8 +13,13 @@ io.on('connection', function(socket){
   	// Emitir mensajes al cliente
     io.emit('chat message', msg);
   });
+
+
+  socket.on('escribiendo', function(mensaje){
+    socket.broadcast.emit('escribiendo', '......');
+  })
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(puerto, function(){
+  console.log('Escuchando en el puerto *: '+puerto);
 });
