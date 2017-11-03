@@ -1,0 +1,11 @@
+{
+  "name": "pataconera",
+  "version": "0.0.1",
+  "description": "App web para administración de venta de patacones chocoanos ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Fernando Raga Renteria",
+  "license": "ISC"
+}
