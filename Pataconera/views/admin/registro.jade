@@ -1,0 +1,71 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title Bootstrap Material Admin by Bootstrapious.com
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='robots', content='all,follow')
+    // Bootstrap CSS
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    // Fontastic Custom icon font
+    link(rel='stylesheet', href='css/fontastic.css')
+    // Font Awesome CSS
+    link(rel='stylesheet', href='css/font-awesome.min.css')
+    // Google fonts - Poppins
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Poppins:300,400,700')
+    // theme stylesheet
+    link#theme-stylesheet(rel='stylesheet', href='css/style.default.css')
+    // Custom stylesheet - for your changes
+    link(rel='stylesheet', href='css/custom.css')
+    // Favicon
+    link(rel='shortcut icon', href='favicon.png')
+    // Tweaks for older IEs
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js')
+      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    .page.login-page
+      .container.d-flex.align-items-center
+        .form-holder.has-shadow
+          .row
+            // Logo & Information Panel
+            .col-lg-6
+              .info.d-flex.align-items-center
+                .content
+                  .logo
+                    h1 Pataconera Chocoana
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            // Form Panel
+            .col-lg-6.bg-white
+              .form.d-flex.align-items-center
+                .content
+                  form#register-form
+                    .form-group
+                      input#register-username.input-material(type='text', name='registerUsername', required='')
+                      label.label-material(for='register-username') Usuario
+                    .form-group
+                      input#register-email.input-material(type='email', name='registerEmail', required='')
+                      label.label-material(for='register-email') Correo      
+                    .form-group
+                      input#register-passowrd.input-material(type='password', name='registerPassword', required='')
+                      label.label-material(for='register-passowrd') Contraseña        
+                    .form-group.terms-conditions
+                      input#license.checkbox-template(type='checkbox')
+                      label(for='license') Acepta los términos y la política
+                    input#register.btn.btn-primary(type='submit', value='Registrarse')
+                  small Ya tienes cuenta ? 
+                  a.signup(href='/login') Iniciar
+      .copyrights.text-center
+        p
+          | Design by 
+          a.external(href='https://bootstrapious.com') Luis Fernando Raga Renteria
+        // Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)
+    // Javascript files
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='js/popper.min.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/jquery.cookie.js')
+    script(src='js/jquery.validate.min.js')
+    script(src='js/front.js')

@@ -2947,3 +2947,22 @@ a.text-light:focus, a.text-light:hover {
 a.text-dark:focus, a.text-dark:hover {
   color: #1d2124 !important;
 }
+
+
+
+
+
+
+/* Nuevos estilos */
+nav.side-navbar{
+  margin-top: 50px;
+  /* margin-right: 100px; */
+  position: ralative;
+  /* z-index:1000; */
+  width: 100%;
+}
+header.header{
+  position: fixed;
+  z-index:1000;
+  width: 100%;
+}

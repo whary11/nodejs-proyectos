@@ -17,6 +17,12 @@ app.set('view engine', 'jade')
 app.get('/', (solicitud, respuesta) => {
 	respuesta.render('index');
 })
+app.get('/login', (solicitud, respuesta) => {
+	respuesta.render('admin/login')
+})
+app.get('/registro', (solicitud, respuesta) => {
+	respuesta.render('admin/registro')
+})
 
 app.listen(puerto, () => {
 	console.log("Correndo en el puerto: "+puerto);
