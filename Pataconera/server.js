@@ -1,8 +1,8 @@
 'use strict'
 var express = require('express')
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var http = require('http').createServer(app);
+var io = require('socket.io').listen(http);
 var puerto = 8080;
 var jade = require('jade')
 ///////////Variables///////Globales
@@ -16,16 +16,18 @@ app.set('view engine', 'jade')
 
 ///////////////Rutas//////////////////////
 app.get('/', (solicitud, respuesta) => {
+
+	//////Error, se están emitiendo mas de un evento y no se envía a todos los usuarios.
 	io.on('connection', (socket) => {
-		numMensajes++;
+		// numMensajes++;
 		socket.emit('news-user', { numMensajes: numMensajes });
 
 		console.log(numMensajes+" usuarios conectados")
 
 
 /////deconexión//////////////////////
-		socket.on('disconnect', (data) => {
-			numMensajes--;
+		socket.on('disconnect', () => {
+			numMensajes-1;
 			socket.emit('user-desconnect', {numMensajes:numMensajes})
 			console.log(numMensajes+" usuarios desconectados")
 		});
