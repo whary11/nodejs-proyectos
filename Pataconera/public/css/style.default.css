@@ -2966,3 +2966,9 @@ header.header{
   z-index:1000;
   width: 100%;
 }
+
+@media (max-width: 640px) {
+  nav.side-navbar{
+    margin-top: 80px;
+  }
+}
