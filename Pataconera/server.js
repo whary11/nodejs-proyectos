@@ -2,18 +2,16 @@
 var express = require('express')
 var app = express();
 var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var puerto = 8080;
 var jade = require('jade')
-
 
 ////////////////////////////////////use////////////////////////////
 app.use(express.static('public'))
 app.set('view engine', 'jade')
 
 
-
-
-
+///////////////Rutas//////////////////////
 app.get('/', (solicitud, respuesta) => {
 	respuesta.render('index');
 })

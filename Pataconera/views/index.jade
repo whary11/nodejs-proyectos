@@ -1,26 +1,5 @@
-doctype html
-html(lange="es")
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    title Pataconera Chocoana by Bootstrapious.com
-    meta(name='description', content='')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='robots', content='all,follow')
-    // Bootstrap CSS
-    link(rel='stylesheet', href='css/bootstrap.min.css')
-    // Fontastic Custom icon font
-    link(rel='stylesheet', href='css/fontastic.css')
-    // Font Awesome CSS
-    link(rel='stylesheet', href='css/font-awesome.min.css')
-    // Google fonts - Poppins
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Poppins:300,400,700')
-    // theme stylesheet
-    link#theme-stylesheet(rel='stylesheet', href='css/style.default.css')
-    // Custom stylesheet - for your changes
-    link(rel='stylesheet', href='css/custom.css')
-    // Favicon
-    // <link rel="shortcut icon" href="favicon.png">
+extends layout
+block Contenido
   body
     .page.home-page
       // Main Navbar
@@ -127,7 +106,7 @@ html(lange="es")
                         strong Read all messages    
                 // Logout
                 li.nav-item
-                  a.nav-link.logout(href='login.html')
+                  a.nav-link.logout(href='/login')
                     | Cerrar Sesión
                     i.fa.fa-sign-out
       .page-content.d-flex.align-items-stretch
@@ -795,7 +774,8 @@ html(lange="es")
                     a.external(href='https://bootstrapious.com/admin-templates') Bootstrapious
                   // Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)
     // Javascript files
-    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='js/jquery.min.js')
+    script(src="/socket.io/socket.io.js")
     script(src='js/popper.min.js')
     script(src='js/bootstrap.min.js')
     script(src='js/jquery.cookie.js')
