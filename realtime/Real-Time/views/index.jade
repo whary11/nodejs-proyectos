@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{usuarios.nombre}
+
+  - for (var x = 0; x < usuarios.length; x++)
+    li= usuarios[x].nombre
+    li= usuarios.length

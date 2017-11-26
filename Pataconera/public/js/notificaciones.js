@@ -1,29 +1,15 @@
 'use strict'
-var socket = io()
+var io = io();
+// alert('Hola Luis Fernando Raga Renteria')
+/////////////////////////Notificaciónes por cada Conexión/////////////////////////////////
+io.on('connection', (socket) => {
+    socket.on('new-userConect', (data) => {
+        console.log(data)
+        alert(data)
+        
+    })
+    let token = socket.handshake.query.token;
+    console.log(token)
+    // ...
+  });
 
-/////////////////////////Conexión/////////////////////////////////
-// var messages = 0;
-var selectoressages = $('#messages span');
-selectoressages.html(0)
-socket.on('news-user', function (data) {
-    // messages++;
-    selectoressages.html(data.numMensajes)
-    console.log(data.numMensajes+" usuarios conectados");
-    // socket.emit('my other event', { my: 'Luis Fernando Raga' });
-});
-
-
-
-
-
-
-
-
-
-
-////////////////NO funciona aún la desconexión///////////////////
-
-socket.on('user-desconnect', function (data) {
-    selectoressages.html(data.numMensajes)
-    console.log(data.numMensajes+" usuarios desconectados")
-});
