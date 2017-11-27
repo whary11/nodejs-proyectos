@@ -1,5 +1,6 @@
 'use strict'
 jQuery(document).ready(function($) {
+	var conteo =0;
 	var data = {
 		id:1,
 		nombre: 'Luis Fernando Raga Renteria',
@@ -7,31 +8,18 @@ jQuery(document).ready(function($) {
 	}
 	var usuario = {
 		id:1,
-		nombre:"Luis Raga"
+		nombre:"Luis Raga",
+		correo: "",
+		imagen: ""
 	}
-	var dialog = document.querySelector('dialog');
-    var showDialogButton = document.querySelector('#show-dialog');
-    if (! dialog.showModal) {
-      dialogPolyfill.registerDialog(dialog);
-    }else{
-    	dialog.showModal();
-    }
-    $('#empezar').click(function(event) {
-    	if (!vacio($('#nombre').val())) {
-    		
-	    	var snackbarContainer = document.querySelector('#demo-toast-example');
-		    var message = {message: 'Debes escribir un Nombre o NickName'};
-		    snackbarContainer.MaterialSnackbar.showSnackbar(message);
-    	}else{
-    		// Agragamos el nombre ingresado al JSON de data 
-    		data.nombre = $('#nombre').val();
-    		usuario.nombre = $('#nombre').val();
-    		// Cerramos laventana de dialogo.
 
-	    	dialog.close();
-	    	renderUsers(usuario, "#usuarios")
-    	}
-    });
+	googleAuth();
+	agregarUsuario(usuario)
+
+	// Notificar la nueva conexión
+	$('#numconect').attr('data-badge', conteo);
+	// Fin
+
 	// Adiciona todos los colores que quieras y que soporte la librería de mdl
 	var colores = ['black',
 					'blue',
@@ -55,10 +43,10 @@ jQuery(document).ready(function($) {
 		}else{
 			//Tomar accion si el texto esta conrrecto y se puede enviar a los demas usuarios conectados.
 			data.mensaje = texto;
+			// console.log(data);
 			renderMensaje(data, "#mensajes");
 			$('#texto-mensaje').val('');	
 		}
-
 	})
 
 
@@ -111,25 +99,52 @@ jQuery(document).ready(function($) {
 
 
 ////////////////// Funciones ////////////
+// Función para conexión con Google
+function googleAuth(){
+
+	var google = new firebase.auth.GoogleAuthProvider();
+	    firebase.auth().signInWithPopup(google).then(function(result) {
+	      usuario.id = result.user.uid;
+	      usuario.nombre = result.user.displayName;
+	      usuario.correo = result.user.email;
+	      usuario.imagen = result.user.photoURL;
+	      data.nombre = result.user.displayName;
+	      data.imagen = result.user.photoURL;
+	      renderUsers(usuario, "#usuarios");
+	    });
+// Conexión a la base de datos, agregando registros
+
+
+	
+}
+// Función para agregar usuarios a la base de datos de firebase
+function agregarUsuario(data){
+	var database = firebase.database();
+	var refDatabase = database.ref("/usuarios");
+	refDatabase.push(usuario)
+	    conteo++;
+}
+
 // Función para renderizarlos mensajes
 function renderMensaje(data, id){
 	var html = `
 		<div id="tt1">
             <span class="mdl-chip mdl-chip--contact">
-                <span class="mdl-chip__contact mdl-color--${data.color} mdl-color-text--white">${PL(data.nombre)}</span>
-                <span class="mdl-chip__text">${data.nombre}</span>
+				<img class="mdl-chip__contact" src="${data.imagen}"></img>
+                <span class="mdl-chip__text">${data.mensaje}</span>
             </span>
         </div>
-        <span class="mdl-tooltip" for="tt1">${data.mensaje}</span>
+        <span class="mdl-tooltip" for="tt1">${data.nombre}</span>
 	`;
 	$(id).append(html);
 }
 // Función para renderizarlos usuarios
 function renderUsers(user, id){
+	// <span class="mdl-chip__contact mdl-color--${user.color} mdl-color-text--white">${PL(user.nombre)}</span>
 	var html = `
 		<div>
             <span class="mdl-chip mdl-chip--contact">
-                <span class="mdl-chip__contact mdl-color--${user.color} mdl-color-text--white">${PL(user.nombre)}</span>
+            <img class="mdl-chip__contact" src="${user.imagen}"></img>
                 <span class="mdl-chip__text">${user.nombre}</span>
             </span>
         </div>`;

@@ -16,17 +16,9 @@
         storageBucket: "enredes-f8244.appspot.com",
         messagingSenderId: "870210169558"
       };
-      firebase.initializeApp(config);
+  firebase.initializeApp(config);
     </script>
     <title>Chat con Firebase</title>
-    <style>
-        .right{
-            /*float: right;*/
-            /*display: block;*/
-            /*margin-right:1000;*/
-        }
-    </style>
-
 </head>
 <body>
 
@@ -64,7 +56,7 @@
                         <div class="mdl-card__supporting-text">
                             <!-- Layout para los mensajes -->
                             <div id="mensajes" class="mdl-cell mdl-cell--10-col mdl-cell--10-col-tablet">
-                                <div>   
+                                <!-- <div>   
                                     <span class="mdl-chip mdl-chip--contact">
                                         <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">A</span>
                                         <span class="mdl-chip__text">Hola Amigos</span>
@@ -75,7 +67,7 @@
                                         <span class="mdl-chip__contact mdl-color--red mdl-color-text--white">F</span>
                                         <span class="mdl-chip__text">Hola</span>
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- Input -->
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--10-col-tablet">
@@ -85,50 +77,21 @@
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored envio">
                                 Enviar
                             </button>
-
-
-                          <!-- modal para el nombre -->
-
-                          <dialog class="mdl-dialog">
-                            <h4 class="mdl-dialog__title"></h4>
-                            <div class="mdl-dialog__content">
-                              <p>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col mdl-cell--10-col-tablet">
-                                <input class="mdl-textfield__input" autocomplete="off" type="text" id="nombre">
-                                <label class="mdl-textfield__label" for="nombre">Nombre o Nickname</label>
-                            </div>
-                              </p>
-                            </div>
-                            <div class="mdl-dialog__actions">
-                              <button type="button" class="mdl-button" id="empezar">Empezar</button>
-                            </div>
-                          </dialog>
-
                         </div>
                     </div>
-
-
-
                     <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-tablet demo-card-wide mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__title">
-                            <h2 style="padding: 12px;" class="mdl-card__title-text">Usuarios Conectados <div class="material-icons mdl-badge mdl-badge--overlap" data-badge="1">account_box</div></h2>
+                            <h2 style="padding: 12px;" class="mdl-card__title-text">Usuarios Conectados <div class="material-icons mdl-badge mdl-badge--overlap" data-badge="12" id="numconect">account_box</div></h2>
                         </div>
                         <!-- Código para los usuarios conectados -->
                         <div class="mdl-card__supporting-text" id="usuarios">
                             
-                            <div>   
+                            <!-- <div>   
                                 <span class="mdl-chip mdl-chip--contact">
                                     <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">L</span>
                                     <span class="mdl-chip__text">Luis</span>
                                 </span>
-                            </div>
-
-
-
-
-
-
-
+                            </div> -->
 
                         </div>
                     </div>
