@@ -13,12 +13,10 @@ jQuery(document).ready(function($) {
 		imagen: ""
 	}
 
-	googleAuth();
-	agregarUsuario(usuario)
+	
+	var userGoogle = googleAuth(usuario);
 
-	// Notificar la nueva conexión
-	$('#numconect').attr('data-badge', conteo);
-	// Fin
+
 
 	// Adiciona todos los colores que quieras y que soporte la librería de mdl
 	var colores = ['black',
@@ -33,6 +31,12 @@ jQuery(document).ready(function($) {
 					];
 	data.color = color(colores);
 	usuario.color = data.color;
+
+
+
+
+
+
 	$(".envio").click(() => {
 		var texto = $('#texto-mensaje').val();
 		if (!vacio(texto)) {
@@ -44,8 +48,17 @@ jQuery(document).ready(function($) {
 			//Tomar accion si el texto esta conrrecto y se puede enviar a los demas usuarios conectados.
 			data.mensaje = texto;
 			// console.log(data);
+			var mensaje = {
+				idUser: usuario.id,
+				nombre: usuario.nombre,
+				mensaje: texto
+			}
+			console.log(mensaje);
+			nuevoMensaje(mensaje);
 			renderMensaje(data, "#mensajes");
-			$('#texto-mensaje').val('');	
+			$('#texto-mensaje').val('');
+
+
 		}
 	})
 
@@ -98,10 +111,23 @@ jQuery(document).ready(function($) {
 
 
 
-////////////////// Funciones ////////////
-// Función para conexión con Google
-function googleAuth(){
 
+
+
+////////////////// Funciones ////////////
+// Agregar mensajes a la base de datos.
+function nuevoMensaje(mensaje){
+	firebase.database().ref('mensajes/').push(mensaje);
+}
+
+
+// Función para agregar usuarios a la base de datos de firebase
+function agregarUsuario(user){
+	firebase.database().ref('usuarios/'+user.id).set(user);
+}
+
+// Función para conexión con Google
+function googleAuth(usuario){
 	var google = new firebase.auth.GoogleAuthProvider();
 	    firebase.auth().signInWithPopup(google).then(function(result) {
 	      usuario.id = result.user.uid;
@@ -110,19 +136,19 @@ function googleAuth(){
 	      usuario.imagen = result.user.photoURL;
 	      data.nombre = result.user.displayName;
 	      data.imagen = result.user.photoURL;
+	      conteo++;
+// Notificar la nueva conexión
+		$('#numconect').attr('data-badge', conteo);
+// Fin
 	      renderUsers(usuario, "#usuarios");
+	      agregarUsuario(usuario);
 	    });
 // Conexión a la base de datos, agregando registros
-
+	return usuario;
+	
+	
 
 	
-}
-// Función para agregar usuarios a la base de datos de firebase
-function agregarUsuario(data){
-	var database = firebase.database();
-	var refDatabase = database.ref("/usuarios");
-	refDatabase.push(usuario)
-	    conteo++;
 }
 
 // Función para renderizarlos mensajes
