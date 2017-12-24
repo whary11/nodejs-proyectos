@@ -153,7 +153,7 @@ function googleAuth(usuario, db){
 	
 }
 
-// Función para renderizarlos mensajes
+// Función para renderizar los mensajes
 function renderMensaje(data, id){
 	var html = `
 		<div id="tt1">
