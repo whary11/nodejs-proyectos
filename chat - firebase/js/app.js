@@ -188,8 +188,8 @@ function PL (string) {
 // Función para seleccionar el color de forma automatica 
 
 function color(colores){
-		return colores[Math.floor(Math.random() * (colores.length - 0)) + 0];
-	}
+	return colores[Math.floor(Math.random() * (colores.length - 0)) + 0];
+}
 
 // Función que valida que el campo no sea sólo espacios
 function vacio(q) {
