@@ -104,21 +104,6 @@ function facebookAuth() {
 }
 
 
-
-
-
-////Pruebas 
-
-// console.log(firebase.UserInfo)
-
-
-
-
-
-
-
-
-
 ////Función para almacenar usuarios en la db
 
 function agregarUsuario(user, db){
@@ -126,18 +111,18 @@ function agregarUsuario(user, db){
 }
 
 function renderUsuario(data, id){
-	if (data.online===true) {
+	if(data.id===getParameterByName('id')){
+
+	}else if (data.online===true) {
 		var html = `
 		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="${data.id}">
 				${data.nombre}
-			<input type="checkbox" id="${data.id}" class="mdl-checkbox__input">
+			<input type="checkbox" id="${data.id}" value="${data.id}" class="mdl-checkbox__input conectados">
 		</label>
 		`;
 		$(id).append(html);
 	}
 }
-
-
 
 	// Letra aleatoria
 function numAleatorio(valor, usuario){
@@ -234,7 +219,7 @@ function notificar(data) {
 function cerrarSesion() {
 	if (firebase.auth().currentUser) {
 		firebase.auth().signOut()
-		alert("Estás cerrando sesión");
+		// alert("Estás cerrando sesión");
 		location.href="index.html";
 	}else{
 		alert('Debes estar logueado');
