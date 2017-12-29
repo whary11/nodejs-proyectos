@@ -12,7 +12,7 @@
 
 	// var usuarios;
 	db.ref('invitaciones').on('value', function(data){
-		// console.log(data.val());
+		// console.log(data);
 		var usuarios = Object.values(data.val());
 		usuarios.map((usuario)=>{
 			// console.log(usuario);
@@ -24,13 +24,13 @@
 
 
 			}else{
-				console.log(usuario)
+				// console.log(usuario)
 				// alert('Tienes una invitación pendiente: ' +usuario.idSala)
 				$('#invitacion').append(`
 					<br>
 					<center>
 						<div id="nada-${usuario.idUsuario}">
-							<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+							<button id="${usuario.idUsuario}" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
 								<i class="material-icons">done</i>
 							</button>
 						<div>
@@ -39,12 +39,18 @@
 						</div>
 					</center>`
 					)
+				// console.log(usuario)
+				// cambia el estado de la invitación
+	$(`#${usuario.idUsuario}`).click(function() {
+		// Recuperar el id del usuario conectado y pasarselo como parámetro a la función cambioEstadoInvitacion(id)
+		cambioEstadoInvitacion(getParameterByName('id'));
+		alert('cambiaste el estado')
+	})
 			}
 		})
 	})
 
 	// Lógica del juego
-
 	// Valida los datos ingresados
 	// validar si el usuario ya envío la invitación a otros usuarios para jugar
 $('#stop').click(()=>{
@@ -68,9 +74,12 @@ $('#stop').click(()=>{
 		      message: 'Tienes campos vacios y el tiempo se está agotando',
 		      timeout: 4000,
 		      actionText: 'Undo'
-		    };
+		};
 		notificar(notificacion)
+		
+
 	}else{
+		// Validar las respuestas del usuario mediante consultas sql
 		// Guardar datos en la base de datos y emitir una calificación....
 		var datos = {
 			increment: 1,
@@ -82,10 +91,11 @@ $('#stop').click(()=>{
 			color: color,
 			animal: animal,
 			fruto: fruto,
+			// Falta almacenar el id de la sala
+			idSala:'',
 			stop: false
-		}
+		};
 		db.ref('Partidas/').push(datos);
-
 		// Función para seleccionar las letras aleatoriamente
 		var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 		numAleatorio(letras)
@@ -146,10 +156,8 @@ $('#crear-sala').click(()=>{
 				confirmacion: false,
 				idCreador: getParameterByName('id')
 			}
-			db.ref('invitaciones').push(solicitud);
+			db.ref('invitaciones/'+id).set(solicitud);
 		})
-
-
 		}
 		
 		
@@ -165,4 +173,10 @@ $('#crear-sala').click(()=>{
 		alert('Debes seleccionar al menos una opción.');
 	}
 
+})
+
+
+
+db.ref('Partidas').on('child_added', (data)=>{
+	console.log(data.val())
 })

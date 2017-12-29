@@ -129,7 +129,7 @@ function numAleatorio(valor, usuario){
 	var letra = valor[Math.floor(Math.random() * (valor.length - 0)) + 0];
 	$('#letra').html(letra)
 
-	var dialog = document.querySelector('dialog');
+	var dialog = document.querySelector('#modal-letra');
     if (! dialog.showModal) {
       dialogPolyfill.registerDialog(dialog);
     }
@@ -230,6 +230,11 @@ function cerrarSesion() {
 // Función para cambiar el estado de los usuarios cuando cierran sesión.
 function cambioEstado(id) {
 	db.ref('usuariosConectados/'+id).update({online:false})
+}
+
+// Función para cambiar el estado de las invitaciones.
+function cambioEstadoInvitacion(idUsuario) {
+	db.ref('invitaciones/'+idUsuario).update({confirmacion:true})
 }
 
 
