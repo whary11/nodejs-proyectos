@@ -176,7 +176,34 @@ $('#crear-sala').click(()=>{
 })
 
 
+// Probando los eventos de firebase
 
-db.ref('Partidas').on('child_added', (data)=>{
-	console.log(data.val())
+// db.ref('Partidas').on('child_added', (data)=>{
+// 	console.log(data.val())
+// })
+
+
+
+
+// Probando las respuestas php
+
+$.ajax({
+	url: 'controladores/funciones.php',
+	type: 'POST',
+	dataType: 'json',
+	data: {param1: 'value1'},
 })
+.done(function(data) {
+	console.log(data);
+})
+.fail(function(jqXHR, textStatus, errorThrown) {
+	console.log(jqXHR);
+	console.log(textStatus);
+	console.log(errorThrown);
+
+
+
+})
+// .always(function() {
+// 	console.log("complete");
+// });
