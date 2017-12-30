@@ -192,6 +192,7 @@ $.ajax({
 	type: 'POST',
 	dataType: 'json',
 	data: {param1: 'value1'},
+
 })
 .done(function(data) {
 	console.log(data);
@@ -201,9 +202,4 @@ $.ajax({
 	console.log(textStatus);
 	console.log(errorThrown);
 
-
-
 })
-// .always(function() {
-// 	console.log("complete");
-// });
