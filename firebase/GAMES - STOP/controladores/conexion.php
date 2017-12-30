@@ -31,16 +31,18 @@
 			
 		}
 		// función para buscar cualquier usuario siguiendo los parámetros exigidos
-		public static function buscaUsuario($tabla,$usuario, $clave){
+		public static function buscaUsuario($idfirebase){
 			$db = new conexion();
-			$data = $db->query("SELECT * FROM $tabla WHERE usuario='".$usuario."' AND clave='".$clave."'");
-			if(isset($data[0])){
+			// print($idfirebase);
+			$data = $db->query("SELECT COUNT(*) FROM usuarios WHERE idfirebase='$idfirebase'");
+			// print($data[0]);
+			if($data[0]==1){
 				return true;
 			}else{
 				return false;
 			}
-			$db->close();
-			unset($db);
+			// $db->close();
+			// unset($db);
 		}
 		// Fúnción que permite leer tabla a partir de la cadena dada
 		public function leeTabla($q){
@@ -88,9 +90,9 @@
 	// $db = new conexion();
 
 
-
-
 	/*
+
+
 	$db = new conexion();
 
 	//Ejemplo para eliminar registros
@@ -115,7 +117,7 @@
 
 
 	//Ejemplo para buscar un usuario dentro de una base de datos
-	if ($db::buscaUsuario("usuarios","@whary11","1234")) {
+	if ($db::buscaUsuario("227Hq2heiFhAiuBPeEi3")) {
 		print("Si existe en sistema");
 	}else{
 		print('No existe');

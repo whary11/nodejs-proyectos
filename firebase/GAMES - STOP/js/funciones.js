@@ -16,9 +16,32 @@ function googleAuth(){
 	      usuario.correo = result.user.email;
 	      usuario.imagen = result.user.photoURL;
 	      usuario.online = true;
+		   	// Enviar datos del usuario a la base de datos MySQL
+		  $.ajax({
+		  	url: 'controladores/index.php',
+		  	type: 'POST',
+		  	dataType: 'json',
+		  	data: usuario,
+		  })
+		  .done(function(data) {
+		  	if(data.resp){
+		  		location.href="juego.html?id="+usuario.id;	
+		  	}else if(data.resp===false){
+		  		console.log('Hubo problemas al guardar los datos.')
+		  	}else{
+		  		console.log(data)
+		  		location.href="juego.html?id="+usuario.id;	
+
+		  	}
+		  })
+		  .fail(function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+
+			})		  
 		  agregarUsuario(usuario, db)
 		  
-		  location.href="juego.html?id="+usuario.id;
 		}).catch(function(error) {
 		   // Handle Errors here.
 		   var errorCode = error.code;
@@ -36,9 +59,8 @@ function googleAuth(){
 		      message: 'Cerraste la ventana para la verificación de tu identidad.',
 		      timeout: 900,
 		      actionText: 'Undo'
-		    };
-		   		notificar(data)
-		   	
+		    };	
+		   	notificar(data)
 		   }else{
 		     console.error(error);
 		   }
@@ -63,11 +85,36 @@ function twitterAuth() {
 		usuario.correo = result.user.email;
 		usuario.imagen = result.user.photoURL;
 		usuario.online = true;
+		// Enviar datos del usuario a la base de datos MySQL
+		$.ajax({
+		  	url: 'controladores/index.php',
+		  	type: 'POST',
+		  	dataType: 'json',
+		  	data: usuario,
+		  })
+		  .done(function(data) {
+		  	if(data.resp){
+		  		location.href="juego.html?id="+usuario.id;	
+		  	}else if(data.resp===false){
+		  		console.log('Hubo problemas al guardar los datos.')
+		  	}else{
+		  		console.log(data)
+		  		location.href="juego.html?id="+usuario.id;	
+
+		  	}
+		  })
+		  .fail(function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+
+			})		  
 		agregarUsuario(usuario, db)
 		
-		location.href="juego.html?id="+usuario.id;
+		
+		// location.href="juego.html?id="+usuario.id;
 
-		console.log(token, secret)
+		// console.log(token, secret)
 		// ...
 	  }).catch(function(error) {
 		// Handle Errors here.
@@ -125,8 +172,13 @@ function renderUsuario(data, id){
 }
 
 	// Letra aleatoria
-function numAleatorio(valor, usuario){
+function letraAleatoria(valor){
 	var letra = valor[Math.floor(Math.random() * (valor.length - 0)) + 0];
+	return letra;	
+}
+
+function renderLetra(letra) {
+	// body...
 	$('#letra').html(letra)
 
 	var dialog = document.querySelector('#modal-letra');
@@ -203,7 +255,9 @@ function numAleatorio(valor, usuario){
 
     	$('#tablaStop').append(html)
     }, 9000)
+    return letra
 }
+
 
 // Funcion para notificar al usuario
 function notificar(data) {

@@ -1,4 +1,6 @@
 	var invotaciones = 0;
+	var letra;
+	var numSala;
 
 	// Eventos
 	db.ref('usuariosConectados').on('child_added', function(data){
@@ -39,6 +41,12 @@
 						</div>
 					</center>`
 					)
+				var mensaje = {
+					message: 'Tines una invitación pendiente.',
+					timeout: 4000,
+					actionText: 'Undo'
+				}
+			notificar(mensaje)
 				// console.log(usuario)
 				// cambia el estado de la invitación
 	$(`#${usuario.idUsuario}`).click(function() {
@@ -78,10 +86,13 @@ $('#stop').click(()=>{
 		notificar(notificacion)
 		
 
+
+
 	}else{
 		// Validar las respuestas del usuario mediante consultas sql
 		// Guardar datos en la base de datos y emitir una calificación....
 		var datos = {
+			letra:letra,
 			increment: 1,
 			id: getParameterByName('id'),
 			nombre: nombre,
@@ -97,8 +108,7 @@ $('#stop').click(()=>{
 		};
 		db.ref('Partidas/').push(datos);
 		// Función para seleccionar las letras aleatoriamente
-		var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-		numAleatorio(letras)
+		// letraAleatoria(letras)
 	}
 
 })
@@ -106,8 +116,8 @@ $('#stop').click(()=>{
 	// Cerrar sesión
 	$('#cerrar').click(function() {
 		// Recuperar el id del usuario conectado y pasarselo como parámetro a la función cambioEstado(id)
-		cambioEstado(getParameterByName('id'));
 		cerrarSesion();
+		cambioEstado(getParameterByName('id'));
 	})
 
 //////crear sala de juego 
@@ -135,7 +145,7 @@ $('#crear-sala').click(()=>{
 		}
 	}); 
 
-	if (idUser != '' ) {
+	if (idUser != '' ){
 		if(idUser.length != $('#numjugadores').val()){
 			// Enviar notificación al usuario
 			var mensaje = {
@@ -146,26 +156,40 @@ $('#crear-sala').click(()=>{
 			notificar(mensaje)
 		}else{
 			// alert('Has seleccionado: '+selected);
-		var numSala = "";
-		var valor = 100000000000000000000000000000000000000;
-		var numSala = Math.floor(Math.random() * (valor)) + 0
+		// var numSala = "";
+		var valor = 1000000000000000000;
+		numSala = Math.floor(Math.random() * (valor)) + 0
+		var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+		letra = letraAleatoria(letras);
 		idUser.map((id)=>{
 			var solicitud = {
 				idSala:numSala,
 				idUsuario: id,
 				confirmacion: false,
-				idCreador: getParameterByName('id')
+				idCreador: getParameterByName('id'),
+				letra: letra
 			}
+			// Insertar en MySQL
+			$.ajax({
+				url: 'controladores/index.php',
+				type: 'POST',
+				dataType: 'json',
+				data:solicitud,
+			})
+			.done(function(data) {
+				console.log(data);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+
+			})
+			
+
 			db.ref('invitaciones/'+id).set(solicitud);
 		})
 		}
-		
-		
-
-
-		
-
-		
 
 		// console.log(selected)
 
@@ -187,19 +211,19 @@ $('#crear-sala').click(()=>{
 
 // Probando las respuestas php
 
-$.ajax({
-	url: 'controladores/funciones.php',
-	type: 'POST',
-	dataType: 'json',
-	data: {param1: 'value1'},
+// $.ajax({
+// 	url: 'controladores/funciones.php',
+// 	type: 'POST',
+// 	dataType: 'json',
+// 	data: {param1: 'value1'},
 
-})
-.done(function(data) {
-	console.log(data);
-})
-.fail(function(jqXHR, textStatus, errorThrown) {
-	console.log(jqXHR);
-	console.log(textStatus);
-	console.log(errorThrown);
+// })
+// .done(function(data) {
+// 	console.log(data);
+// })
+// .fail(function(jqXHR, textStatus, errorThrown) {
+// 	console.log(jqXHR);
+// 	console.log(textStatus);
+// 	console.log(errorThrown);
 
-})
+// })
