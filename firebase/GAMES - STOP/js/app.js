@@ -1,8 +1,10 @@
-	var invotaciones = 0;
+	var invitaciones = [];
 	var letra;
 	var numSala;
 
 	// Eventos
+
+
 	db.ref('usuariosConectados').on('child_added', function(data){
 		var usuarios = data.val();
 		renderUsuario(usuarios, "#contenido");
@@ -14,16 +16,25 @@
 
 	// var usuarios;
 	db.ref('invitaciones').on('value', function(data){
-		// console.log(data);
+		// console.log(data.val());
+
+
 		var usuarios = Object.values(data.val());
+
 		usuarios.map((usuario)=>{
-			// console.log(usuario);
+			console.log(usuario);
+		invitaciones.push(usuario.confirmacion)
 			if (usuario.idCreador===getParameterByName('id')) {
 				
 			}else if(usuario.idUsuario != getParameterByName('id')){
 
 			}else if(usuario.confirmacion){
-
+			// 	var mensaje1 = {
+			// 		message: 'Un usuario a confirmado.',
+			// 		timeout: 4000,
+			// 		actionText: 'Undo'
+			// 	}
+			// notificar(mensaje1)
 
 			}else{
 				// console.log(usuario)
@@ -47,16 +58,21 @@
 					actionText: 'Undo'
 				}
 			notificar(mensaje)
-				// console.log(usuario)
+
+
 				// cambia el estado de la invitación
-	$(`#${usuario.idUsuario}`).click(function() {
-		// Recuperar el id del usuario conectado y pasarselo como parámetro a la función cambioEstadoInvitacion(id)
-		cambioEstadoInvitacion(getParameterByName('id'));
-		alert('cambiaste el estado')
-	})
+				$(`#${usuario.idUsuario}`).click(function() {
+					// Recuperar el id del usuario conectado y pasarselo como parámetro a la función cambioEstadoInvitacion(id)
+					cambioEstadoInvitacion(getParameterByName('id'));
+					alert('cambiaste el estado')
+				})
+
+
+				// Falta hacer la comparación para validar elinicio del juego y mostrar la letra a los usuarios
 			}
 		})
 	})
+
 
 	// Lógica del juego
 	// Valida los datos ingresados
@@ -85,15 +101,31 @@ $('#stop').click(()=>{
 		};
 		notificar(notificacion)
 		
-
+		
 
 
 	}else{
 		// Validar las respuestas del usuario mediante consultas sql
-		// Guardar datos en la base de datos y emitir una calificación....
+		// Validar las partidas del juego
+		$.ajax({
+			url: 'controladores/index.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {req:true,idSala:0},
+		})
+		.done(function(data) {
+			console.log(data);
+			// Validar las partidas de los usuarios
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+
+		})
+	// Guardar datos en la base de datos y emitir una calificación....
 		var datos = {
 			letra:letra,
-			increment: 1,
 			id: getParameterByName('id'),
 			nombre: nombre,
 			apellido: apellido,
@@ -103,12 +135,27 @@ $('#stop').click(()=>{
 			animal: animal,
 			fruto: fruto,
 			// Falta almacenar el id de la sala
-			idSala:'',
+			idSala:numSala,
 			stop: false
 		};
 		db.ref('Partidas/').push(datos);
-		// Función para seleccionar las letras aleatoriamente
-		// letraAleatoria(letras)
+		// Guardar partidas en MySQL
+		$$.ajax({
+			url: 'controladores/index.php',
+			type: 'POST',
+			dataType: 'json',
+			data: datos,
+		})
+		.done(function(data) {
+			console.log(data);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+
+		})
+		
 	}
 
 })
@@ -170,6 +217,7 @@ $('#crear-sala').click(()=>{
 				letra: letra
 			}
 			// Insertar en MySQL
+			db.ref('invitaciones/'+id).set(solicitud);
 			$.ajax({
 				url: 'controladores/index.php',
 				type: 'POST',
@@ -177,7 +225,10 @@ $('#crear-sala').click(()=>{
 				data:solicitud,
 			})
 			.done(function(data) {
-				console.log(data);
+				// Actuar de acuerdo a la respuesta del servidor
+				if (data.resp) {
+					// console.log(data);
+				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR);
@@ -187,7 +238,6 @@ $('#crear-sala').click(()=>{
 			})
 			
 
-			db.ref('invitaciones/'+id).set(solicitud);
 		})
 		}
 
