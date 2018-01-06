@@ -1,7 +1,21 @@
 	var invitaciones = [];
-	var letra;
-	var numSala;
-
+	var letra = 'Q';
+	var numSala = 0;
+	var nombrePartida = [];
+	var apellidoPartida = [];
+	var ciudadPartida = [];
+	var paisPartida = [];
+	var colorPartida = [];
+	var animalPartida = [];
+	var frutoPartida = [];
+	var numeroJugadoresDb = [];
+	var conteonombre = 0;
+	var conteoapellido = 0;
+	var conteociudad = 0;
+	var conteopais = 0;
+	var conteocolor = 0;
+	var conteoanimal = 0;
+	var conteofruto = 0;
 	// Eventos
 
 
@@ -22,19 +36,10 @@
 		var usuarios = Object.values(data.val());
 
 		usuarios.map((usuario)=>{
-			console.log(usuario);
+			// console.log(usuario);
 		invitaciones.push(usuario.confirmacion)
-			if (usuario.idCreador===getParameterByName('id')) {
+			if (usuario.idCreador===getParameterByName('id') || usuario.idUsuario != getParameterByName('id') || usuario.confirmacion) {
 				
-			}else if(usuario.idUsuario != getParameterByName('id')){
-
-			}else if(usuario.confirmacion){
-			// 	var mensaje1 = {
-			// 		message: 'Un usuario a confirmado.',
-			// 		timeout: 4000,
-			// 		actionText: 'Undo'
-			// 	}
-			// notificar(mensaje1)
 
 			}else{
 				// console.log(usuario)
@@ -104,28 +109,20 @@ $('#stop').click(()=>{
 		
 
 
-	}else{
-		// Validar las respuestas del usuario mediante consultas sql
-		// Validar las partidas del juego
-		$.ajax({
-			url: 'controladores/index.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {req:true,idSala:0},
-		})
-		.done(function(data) {
-			console.log(data);
-			// Validar las partidas de los usuarios
-		})
-		.fail(function(jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			console.log(textStatus);
-			console.log(errorThrown);
+	}else if(nombre[0]!=letra || apellido[0]!=letra || ciudad[0]!=letra || pais[0]!=letra || color[0]!=letra || animal[0]!=letra || fruto[0]!=letra){
+	
+		var notificacion = {
+		      message: 'Las palabras deben empezar por la letra '+letra,
+		      timeout: 4000,
+		      actionText: 'Undo'
+		};
+		notificar(notificacion)
 
-		})
-	// Guardar datos en la base de datos y emitir una calificación....
+
+
+	}else{// Guardar datos en la base de datos y emitir una calificación....
 		var datos = {
-			letra:letra,
+			letra:"Q",
 			id: getParameterByName('id'),
 			nombre: nombre,
 			apellido: apellido,
@@ -135,19 +132,108 @@ $('#stop').click(()=>{
 			animal: animal,
 			fruto: fruto,
 			// Falta almacenar el id de la sala
-			idSala:numSala,
+			idSala:0,
 			stop: false
 		};
 		db.ref('Partidas/').push(datos);
 		// Guardar partidas en MySQL
-		$$.ajax({
+		$.ajax({
 			url: 'controladores/index.php',
 			type: 'POST',
 			dataType: 'json',
 			data: datos,
 		})
 		.done(function(data) {
-			console.log(data);
+			// console.log(data);
+
+			if (data.resp) {
+				// Validar las respuestas del usuario mediante consultas sql
+				// Validar las partidas del juego
+				
+				$.ajax({
+					url: 'controladores/index.php',
+					type: 'POST',
+					dataType: 'json',
+					data: {req:true,idSala:0},
+				})
+				.done(function(partidas) {
+					// console.log(partida);
+					// Validar las partidas de los usuarios
+					partidas.map(function(partida) {
+						
+						// Validar aquí los datos de la partida para todos los usuarios
+
+
+
+
+
+					})
+
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+
+				})
+
+				// //Obtener las partidas desde firebase
+				db.ref('Partidas').once('value', function(data){
+					// console.log(Object.values(data.val()))
+					Object.values(data.val()).map(function(elem) {
+						// Validar que sea de la misma sala
+						if (numSala===elem.idSala) {
+							nombrePartida.push(elem.nombre)
+							apellidoPartida.push(elem.apellido)
+							ciudadPartida.push(elem.ciudad)
+							paisPartida.push(elem.pais)
+							colorPartida.push(elem.color)
+							animalPartida.push(elem.animal)
+							frutoPartida.push(elem.fruto)
+						}
+					})
+
+				})
+				// Validar los nombres almacenados
+				// console.log(apellidoPartida)
+				// db.ref('invitaciones').once('value', (invitacion)=>{
+				// 	Object.values(invitacion.val()).map(function(elem) {
+				// 		if (numSala===elem.idSala){
+				// 			numeroJugadoresDb.push(elem.numJugadores)
+				// 		}
+				// 	})
+				// })
+				// numeroJugadoreDb[0];
+				// console.log(parseInt(numeroJugadoresDb[0]))
+				numeroJugadoresDb = parseInt(numeroJugadoresDb[0])-1;
+				// console.log(apellidoPartida.indexOf(numeroJugadoresDb));
+				// var conteo= 0;
+
+				console.log(apellidoPartida)
+				apellidoPartida.map((elem)=>{
+  						
+					// console.log(apellidoPartida.includes(elem))
+					if (apellidoPartida.includes(elem)) {
+						conteoapellido++;
+						
+						console.log(elem);
+					}
+
+
+
+				})
+				apellidoPartida.splice(0, apellidoPartida.length)
+				console.log(conteoapellido)
+
+				// console.log(elim_rep(apellidoPartida));
+				// console.log(nombrePartida, apellidoPartida, ciudadPartida, paisPartida, frutoPartida)
+			}
+
+
+
+
+
+
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
@@ -155,6 +241,7 @@ $('#stop').click(()=>{
 			console.log(errorThrown);
 
 		})
+
 		
 	}
 
@@ -214,7 +301,8 @@ $('#crear-sala').click(()=>{
 				idUsuario: id,
 				confirmacion: false,
 				idCreador: getParameterByName('id'),
-				letra: letra
+				letra: letra,
+				numJugadores:$('#numjugadores').val()
 			}
 			// Insertar en MySQL
 			db.ref('invitaciones/'+id).set(solicitud);
